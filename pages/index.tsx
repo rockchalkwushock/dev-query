@@ -41,6 +41,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center space-y-4 w-full">
+      <h1>Hello NextJS + TailwindCSS + TypeScript Starter</h1>
       <div className="flex flex-col w-1/2">
         <label className="text-lg" htmlFor="search">
           Search for developers on GitHub:
@@ -73,10 +74,10 @@ const Home: React.FC = () => {
       </div>
       <div className="flex flex-col">
         {res.status === 'error' && (
-          <h1 className="font-semibold text-2xl text-red-500">Error</h1>
+          <p className="font-semibold text-2xl text-red-500">Error</p>
         )}
         {res.status === 'loading' && (
-          <h1 className="font-semibold text-2xl text-green-500">Loading...</h1>
+          <p className="font-semibold text-2xl text-green-500">Loading...</p>
         )}
         {res.status === 'success' && res.data && (
           <ul className="flex flex-col space-y-4">
