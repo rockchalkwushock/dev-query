@@ -45,7 +45,7 @@ jobs:
       - name: Deploying
         uses: amondnet/vercel-action@v20.0.0
         with:
-          alias-domains: dev-query.vercel.app
+          alias-domains: dev-query.com
           github-comment: true
           github-token: ${{ github.token}}
           vercel-args: '--prod'
