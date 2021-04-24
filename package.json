@@ -1,0 +1,158 @@
+{
+  "name": "dev-query",
+  "version": "1.0.0",
+  "description": "App for searching developers on GitHub.",
+  "author": {
+    "email": "me@codybrunner.dev",
+    "name": "Cody Brunner",
+    "url": "https://codybrunner.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rockchalkwushock/dev-query.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "build": "next build",
+    "commit": "git cz",
+    "dev": "next",
+    "format": "prettier --write",
+    "lint": "eslint",
+    "prepare": "husky install",
+    "start": "next start",
+    "test": "jest --maxWorkers=50%",
+    "test:ci": "jest --ci --passWithNoTests --runInBand",
+    "test:coverage": "yarn test --coverage",
+    "test:watch": "jest --maxWorkers=25% --onlyChanged --watch",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "next": "^10.1.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.32.11"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@rockchalkwushock/eslint-config": "^1.0.3",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/react-hooks": "^5.1.2",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.41",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "autoprefixer": "^10.2.5",
+    "commitizen": "^4.2.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.25.0",
+    "husky": "^6.0.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
+    "postcss": "^8.2.12",
+    "postcss-import": "^14.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.2.1",
+    "react-test-renderer": "^17.0.2",
+    "tailwindcss": "^2.1.2",
+    "ts-jest": "^26.5.5",
+    "typescript": "^4.2.4"
+  },
+  "babel": {
+    "presets": [
+      "next/babel"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "eslintConfig": {
+    "extends": "@rockchalkwushock/eslint-config",
+    "ignorePatterns": [
+      "package.json",
+      "vercel.json"
+    ]
+  },
+  "lint-staged": {
+    "*.+(js|json|md|mdx|ts|tsx|yml|yaml)": [
+      "prettier --write"
+    ],
+    "*.+(js|ts|tsx)": [
+      "eslint --fix",
+      "jest --lastCommit --maxWorkers=25% --passWithNoTests"
+    ]
+  },
+  "jest": {
+    "bail": true,
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx}",
+      "!**/*.d.ts",
+      "!pages/_app.tsx",
+      "!pages/_document.tsx",
+      "!utils/testUtils.tsx",
+      "!**/node_modules/**",
+      "!**/.plop/**"
+    ],
+    "globals": {
+      "ts-jest": {
+        "babelConfig": true
+      }
+    },
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "<rootDir>/utils",
+      "<rootDir>"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|sass|scss)$": "identity-obj-proxy",
+      "^@components/(.*)$": "<rootDir>/components/$1",
+      "^@hooks/(.*)$": "<rootDir>/hooks/$1",
+      "^@interfaces/(.*)$": "<rootDir>/interfaces/$1",
+      "^@layouts/(.*)$": "<rootDir>/layouts/$1",
+      "^@lib/(.*)$": "<rootDir>/lib/$1",
+      "^@pages/(.*)$": "<rootDir>/pages/$1",
+      "^@test-utils": "<rootDir>/utils/testUtils",
+      "^@utils/(.*)$": "<rootDir>/utils/$1"
+    },
+    "preset": "ts-jest",
+    "roots": [
+      "<rootDir>"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.ts"
+    ],
+    "testEnvironment": "jsdom",
+    "testPathIgnorePatterns": [
+      "<rootDir>[/\\\\](node_modules|.next)[/\\\\]"
+    ],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$"
+    ]
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5"
+  }
+}

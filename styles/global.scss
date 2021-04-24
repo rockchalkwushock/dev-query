@@ -1,0 +1,35 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html,
+body {
+  min-height: 100vh;
+  min-width: 22.5rem;
+  scroll-behavior: smooth;
+}
+
+#__next {
+  @apply flex flex-col min-h-screen w-full;
+}
+
+/*
+-------------------------------------------
+Custom utilities for tailwind
+-------------------------------------------
+*/
+
+@layer utilities {
+  .bg-primary {
+    @apply bg-indigo-400;
+  }
+  .text-primary {
+    @apply text-yellow-300;
+  }
+  .bg-secondary {
+    @apply bg-indigo-50;
+  }
+  .text-secondary {
+    @apply text-gray-700;
+  }
+}
