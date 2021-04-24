@@ -1,0 +1,46 @@
+query GITHUB_USER_SEARCH($after: String, $before: String, $query: String!) {
+    result: search(
+      after: $after
+      before: $before
+      first: 10
+      query: $query
+      type: USER
+    ) {
+      nodes {
+        ... on User {
+          avatarUrl(size: 100)
+          bio
+          company
+          createdAt
+          email
+          followers {
+            totalCount
+          }
+          id
+          location
+          login
+          name
+          repositoriesContributedTo {
+            totalCount
+          }
+          starredRepositories {
+            totalCount
+          }
+          status {
+            emoji
+            message
+          }
+          twitterUsername
+          url
+          websiteUrl
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      userCount
+    }
+  }

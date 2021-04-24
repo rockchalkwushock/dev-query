@@ -1,10 +1,13 @@
 import * as React from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { render, RenderOptions } from '@testing-library/react'
+
+const client = new QueryClient()
 
 const TestingWrapper: React.FC = ({ children }) => {
   // Add providers here.
   // i.e. <ThemeProvider />
-  return <>{children}</>
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }
 
 const customRender = (
