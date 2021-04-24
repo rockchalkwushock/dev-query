@@ -60,7 +60,7 @@ jobs:
       - name: Deploying
         uses: amondnet/vercel-action@v20.0.0
         with:
-          alias-domains: pr-{{PR_NUMBER}}.dev-query.vercel.app
+          alias-domains: pr-{{PR_NUMBER}}.dev-query
           github-comment: true
           github-token: ${{ github.token }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
