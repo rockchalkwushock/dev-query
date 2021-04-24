@@ -22,5 +22,7 @@ declare namespace NodeJS {
     VERCEL_GIT_REPO_SLUG: string
     VERCEL_REGION: string
     VERCEL_URL: string
+    // Custom Environment Variables
+    GITHUB_ACCESS_TOKEN: string
   }
 }
