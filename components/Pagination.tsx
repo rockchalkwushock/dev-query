@@ -6,15 +6,17 @@ import { PageInfo, Variables } from '@interfaces/github'
 interface Props {
   info: PageInfo
   isPreviousData: boolean
-  onNext: (variables: Pick<Variables, 'after' | 'before'>) => void
-  onPrev: (variables: Pick<Variables, 'after' | 'before'>) => void
+  limit: number
+  onPaginate: (
+    variables: Pick<Variables, 'after' | 'before' | 'first' | 'last'>
+  ) => void
 }
 
 export const Pagination: React.FC<Props> = ({
   info,
   isPreviousData,
-  onNext,
-  onPrev,
+  limit,
+  onPaginate,
 }) => {
   return (
     <div className="flex">
@@ -28,14 +30,16 @@ export const Pagination: React.FC<Props> = ({
         }`}
         disabled={!info.hasPreviousPage}
         onClick={() =>
-          onPrev({
+          onPaginate({
             before: info.startCursor,
+            first: null,
+            last: limit,
           })
         }
         type="button"
       >
         <Icon.Rewind />
-      </button>{' '}
+      </button>
       <button
         className={`bg-white border border-indigo-800 font-semibold px-10 py-2 shadow-md text-lg uppercase focus:outline-none ${
           !info.hasNextPage
@@ -46,8 +50,10 @@ export const Pagination: React.FC<Props> = ({
         }`}
         disabled={isPreviousData || !info.hasNextPage}
         onClick={() =>
-          onNext({
+          onPaginate({
             after: info.endCursor,
+            first: limit,
+            last: null,
           })
         }
         type="button"

@@ -13,7 +13,7 @@ import { Icon } from '@components/Icon'
 type OnChangeFn = (values: Pick<FormValues, 'limit' | 'query'>) => void
 
 type PaginationCallback = (
-  variables: Pick<Variables, 'after' | 'before'>
+  variables: Pick<Variables, 'after' | 'before' | 'first' | 'last'>
 ) => void
 
 const Home: React.FC = () => {
@@ -23,27 +23,20 @@ const Home: React.FC = () => {
   const [variables, setVariables] = React.useState<Variables | undefined>(
     undefined
   )
+  // Set this initially to the default for "limit" on the form.
+  const [cachedLimit, setCachedLimit] = React.useState<number>(() => 12)
 
   const { data, isFetching, isPreviousData, status } = useSearch(variables)
 
   const onChange = React.useCallback<OnChangeFn>(({ limit, query }) => {
     setVariables(v => ({ ...v, query, first: limit }))
+    // Keep the limit up-to-date.
+    setCachedLimit(limit)
   }, [])
 
-  const onNextPage = React.useCallback<PaginationCallback>(cursor => {
+  const onPagination = React.useCallback<PaginationCallback>(pValues => {
     setVariables(v => ({
-      ...cursor,
-      first: v!.first,
-      last: null,
-      query: v!.query,
-    }))
-  }, [])
-
-  const onPreviousPage = React.useCallback<PaginationCallback>(cursor => {
-    setVariables(v => ({
-      ...cursor,
-      first: null,
-      last: v!.last,
+      ...pValues,
       query: v!.query,
     }))
   }, [])
@@ -67,8 +60,8 @@ const Home: React.FC = () => {
               <Pagination
                 info={data.pageInfo}
                 isPreviousData={isPreviousData}
-                onNext={onNextPage}
-                onPrev={onPreviousPage}
+                limit={cachedLimit}
+                onPaginate={onPagination}
               />
               <span>Users Found: {data.count}</span>
               {/* {layout === 'grid' && <GridLayout users={data.users} />} */}

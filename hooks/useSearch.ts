@@ -14,7 +14,11 @@ export const useSearch: UseSearch = variables => {
   const { data, error, isFetching, isPreviousData, status } = useQuery(
     ['users', variables],
     fetchUsers,
-    { enabled: !!variables, keepPreviousData: true, staleTime: 5000 }
+    // - enabled prevent this hook from executing immediately since we define
+    //   variables as "undefined" onMount.
+    // - keepPreviousData will prevent data from being discarded on a new query.
+    // - staleTime: will allow data to remain stale for 10000.
+    { enabled: !!variables, keepPreviousData: true, staleTime: 10000 }
   )
 
   return {
