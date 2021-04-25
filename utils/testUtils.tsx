@@ -2,12 +2,18 @@ import * as React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { render, RenderOptions } from '@testing-library/react'
 
+import { LayoutProvider } from '@contexts/LayoutContext'
+
 const client = new QueryClient()
 
 const TestingWrapper: React.FC = ({ children }) => {
   // Add providers here.
   // i.e. <ThemeProvider />
-  return <QueryClientProvider client={client}>{children}</QueryClientProvider>
+  return (
+    <QueryClientProvider client={client}>
+      <LayoutProvider>{children}</LayoutProvider>
+    </QueryClientProvider>
+  )
 }
 
 const customRender = (
