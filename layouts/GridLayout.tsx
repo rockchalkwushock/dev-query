@@ -1,31 +1,23 @@
 import * as React from 'react'
+import { Accordion, AccordionItem } from 'react-accessible-accordion'
 
+import { Card } from '@components/Card'
+import { User } from '@interfaces/github'
 interface Props {
-  items: Array<unknown>
+  users: Array<User>
 }
 
-const color = [
-  'amber',
-  'blue',
-  'cyan',
-  'gray',
-  'green',
-  'indigo',
-  'orange',
-  'pink',
-  'purple',
-  'red',
-  'yellow',
-]
-
-export const GridLayout: React.FC<Props> = ({ items }) => {
+export const GridLayout: React.FC<Props> = ({ users }) => {
   return (
-    <ul className="bg-red-100 gap-4 grid grid-cols-1 min-h-screen p-6 w-screen sm:grid-cols-2 md:grid-cols-3">
-      {items.map((_v, i) => (
-        <li className={`bg-${color[i]}-500 p-4`} key={i}>
-          hello
-        </li>
+    <Accordion
+      allowZeroExpanded
+      className="bg-red-100 gap-4 grid grid-cols-1 min-h-screen p-6 w-screen sm:grid-cols-2 md:grid-cols-3"
+    >
+      {users.map(user => (
+        <AccordionItem key={`${user.id}--grid`}>
+          <Card user={user} />
+        </AccordionItem>
       ))}
-    </ul>
+    </Accordion>
   )
 }
