@@ -40,13 +40,17 @@ const handler = async (
   // potentially malicious params. We just parse the body and assert it
   // as our Variables and pull out exactly what we need. If someone
   // injected {"foo": "bar"} it would be left behind here.
-  const { after, before, query } = JSON.parse(req.body) as Variables
+  const { after, before, first, last, query } = JSON.parse(
+    req.body
+  ) as Variables
   try {
     // Make the request to GitHub sending the GQL Document & associated
     // variables for the query.
     const response = await client.request<Response, Variables>(document, {
       after,
       before,
+      first,
+      last,
       query,
     })
 

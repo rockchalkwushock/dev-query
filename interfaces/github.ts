@@ -1,5 +1,4 @@
 import { Maybe } from './helpers'
-
 export interface Response {
   result: {
     nodes: Array<RawUser>
@@ -7,20 +6,28 @@ export interface Response {
     userCount: number
   }
 }
+
+export interface ParsedResponse {
+  count: number
+  pageInfo: PageInfo
+  users: Array<User>
+}
 export interface Variables {
-  after?: string
-  before?: string
+  after?: Maybe<string>
+  before?: Maybe<string>
+  first?: Maybe<number>
+  last?: Maybe<number>
   query: string
 }
 
 export interface PageInfo {
-  endCursor: string
+  endCursor?: Maybe<string>
   hasNextPage: boolean
   hasPreviousPage: boolean
-  startCursor: string
+  startCursor?: Maybe<string>
 }
 
-interface RawUser {
+export interface RawUser {
   avatarUrl: string
   bio: Maybe<string>
   company: Maybe<string>
@@ -37,6 +44,26 @@ interface RawUser {
   twitterUsername: Maybe<string>
   url: string
   websiteUrl: Maybe<string>
+}
+
+export interface User
+  extends Omit<
+    RawUser,
+    | 'avatarUrl'
+    | 'followers'
+    | 'login'
+    | 'repositoriesContributedTo'
+    | 'starredRepositories'
+    | 'twitterUsername'
+    | 'url'
+  > {
+  avatar: string
+  contributions: number
+  followers: number
+  githubUrl: string
+  stars: number
+  twitter: Maybe<string>
+  username: string
 }
 
 type Count = {
