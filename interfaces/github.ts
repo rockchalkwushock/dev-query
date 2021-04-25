@@ -1,5 +1,4 @@
 import { Maybe } from './helpers'
-
 export interface Response {
   result: {
     nodes: Array<RawUser>
@@ -14,16 +13,18 @@ export interface ParsedResponse {
   users: Array<User>
 }
 export interface Variables {
-  after?: string
-  before?: string
+  after?: Maybe<string>
+  before?: Maybe<string>
+  first?: Maybe<number>
+  last?: Maybe<number>
   query: string
 }
 
 export interface PageInfo {
-  endCursor: string
+  endCursor?: Maybe<string>
   hasNextPage: boolean
   hasPreviousPage: boolean
-  startCursor: string
+  startCursor?: Maybe<string>
 }
 
 export interface RawUser {

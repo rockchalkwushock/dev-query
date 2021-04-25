@@ -1,4 +1,5 @@
 import {
+  Calendar,
   ExternalLink,
   FastForward,
   GitHub,
@@ -20,6 +21,7 @@ import {
 } from 'react-feather'
 
 export const Icon = {
+  Calendar,
   ExternalLink,
   FastForward,
   GitHub,

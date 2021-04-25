@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { Variables } from '@interfaces/github'
 
-type FormValues = Pick<Variables, 'query'>
+export type FormValues = Pick<Variables, 'query'> & { limit: 12 | 24 | 48 }
 
 interface Props {
   onChange: (values: FormValues) => void
@@ -15,7 +15,9 @@ export const Form: React.FC<Props> = ({ onChange }) => {
     handleSubmit,
     register,
     reset,
-  } = useForm<FormValues>()
+  } = useForm<FormValues>({
+    defaultValues: { limit: 12, query: '' },
+  })
 
   React.useEffect(() => {
     if (isSubmitSuccessful) {
@@ -59,6 +61,11 @@ export const Form: React.FC<Props> = ({ onChange }) => {
           required: 'You must submit a query value.',
         })}
       />
+      <select {...register('limit', { valueAsNumber: true })}>
+        <option value={12}>12</option>
+        <option value={24}>24</option>
+        <option value={48}>48</option>
+      </select>
       <div className="flex">
         <button
           className={`bg-white border border-indigo-800 font-semibold px-10 py-2 rounded-bl-3xl rounded-tl-3xl shadow-md text-lg uppercase ${

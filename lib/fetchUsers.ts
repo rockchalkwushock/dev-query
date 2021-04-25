@@ -1,19 +1,18 @@
 import { QueryFunction } from 'react-query'
 
-import { Response, Variables } from '@interfaces/github'
+import { ParsedResponse, Response, Variables } from '@interfaces/github'
+import { parseUser } from '@utils/helpers'
 
-type FetchUsers = QueryFunction<Response, ['users', Variables]>
+type FetchUsers = QueryFunction<
+  ParsedResponse | undefined,
+  ['users', Variables | undefined]
+>
 
 export const fetchUsers: FetchUsers = async ({
   queryKey: [_key, variables],
 }) => {
   try {
-    // If "query" is undefined abort running the query.
-    // We do this because "query" is a required string by GitHub's API.
-    // Problem is passing an empty string will result in a query and that
-    // query returns all users on the platform.
-    // Poor Man's Hack #haks
-    if (!variables.query) {
+    if (typeof variables === 'undefined') {
       return
     }
     const res = await fetch('/api/search', {
@@ -21,7 +20,13 @@ export const fetchUsers: FetchUsers = async ({
       method: 'POST',
     })
 
-    return res.json()
+    const data = (await res.json()) as Response
+
+    return {
+      count: data.result.userCount,
+      pageInfo: data.result.pageInfo,
+      users: data.result.nodes.map(node => parseUser(node)),
+    }
   } catch (error) {
     throw new Error(`[fetchUsers]: ${error}`)
   }
