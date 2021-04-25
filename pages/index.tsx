@@ -1,6 +1,8 @@
 import * as React from 'react'
+import { useForm } from 'react-hook-form'
 
 import { useLayout } from '@hooks/useLayout'
+import { Variables } from '@interfaces/github'
 import { GridLayout } from '@layouts/GridLayout'
 import { ListLayout } from '@layouts/ListLayout'
 
@@ -8,11 +10,19 @@ import { useSearch } from '@hooks/useSearch'
 // import { PageInfo } from '@interfaces/github'
 // import { Maybe } from '@interfaces/helpers'
 
+type FormValues = {
+  query: string
+}
+
 const Home: React.FC = () => {
+  // Used to toggle between Grid & List Layout.
   const { layout } = useLayout()
-  // const [searchValue, setSearchValue] = React.useState<string | undefined>(
-  //   undefined
-  // )
+  // Used for getting form values & cursor values to pass to useSearch.
+  const [values, setValues] = React.useState<Variables>({ query: '' })
+  // Create form.
+  const { register, reset, handleSubmit } = useForm<FormValues>()
+  // Register onSubmit.
+  const onSubmit = handleSubmit(values => setValues(values))
 
   // const [pageInfo, setPageInfo] = React.useState<Maybe<PageInfo>>(null)
 
@@ -21,9 +31,7 @@ const Home: React.FC = () => {
   // >({ after: undefined, before: undefined })
 
   const { data, status } = useSearch({
-    // after: cursor.after,
-    // before: cursor.before,
-    query: 'cody',
+    ...values,
   })
 
   // React.useEffect(() => {
@@ -46,6 +54,32 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center relative space-y-4 w-full">
+      <form
+        className="flex flex-col items-center justify-center space-y-4 w-full"
+        onSubmit={onSubmit}
+      >
+        <input
+          className="border border-indigo-800 h-10 px-6 py-2 rounded-3xl text-lg w-80"
+          placeholder="Search developers on GitHub"
+          type="text"
+          {...register('query', { required: true })}
+        />
+        <div className="flex justify-between w-80">
+          <button
+            className="bg-white border border-indigo-800 px-10 py-2 rounded-3xl shadow-md text-lg"
+            type="submit"
+          >
+            Search
+          </button>
+          <button
+            className="bg-white border border-indigo-800 px-10 py-2 rounded-3xl shadow-md text-lg"
+            onClick={() => reset()}
+            type="reset"
+          >
+            Reset
+          </button>
+        </div>
+      </form>
       {status === 'error' && <h1>Error</h1>}
       {status === 'loading' && <h1>Loading...</h1>}
       {status === 'success' && data && (
