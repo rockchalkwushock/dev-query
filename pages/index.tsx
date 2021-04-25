@@ -1,48 +1,60 @@
 import * as React from 'react'
 
+import { useLayout } from '@hooks/useLayout'
+import { GridLayout } from '@layouts/GridLayout'
+import { ListLayout } from '@layouts/ListLayout'
+
 import { useSearch } from '@hooks/useSearch'
-import { PageInfo } from '@interfaces/github'
-import { Maybe } from '@interfaces/helpers'
+// import { PageInfo } from '@interfaces/github'
+// import { Maybe } from '@interfaces/helpers'
 
 const Home: React.FC = () => {
-  const [searchValue, setSearchValue] = React.useState<string | undefined>(
-    undefined
-  )
+  const { layout } = useLayout()
+  // const [searchValue, setSearchValue] = React.useState<string | undefined>(
+  //   undefined
+  // )
 
-  const [pageInfo, setPageInfo] = React.useState<Maybe<PageInfo>>(null)
+  // const [pageInfo, setPageInfo] = React.useState<Maybe<PageInfo>>(null)
 
-  const [cursor, setCursor] = React.useState<
-    Record<string, string | undefined>
-  >({ after: undefined, before: undefined })
+  // const [cursor, setCursor] = React.useState<
+  //   Record<string, string | undefined>
+  // >({ after: undefined, before: undefined })
 
-  const res = useSearch({
-    after: cursor.after,
-    before: cursor.before,
-    query: searchValue!,
+  const { data, status } = useSearch({
+    // after: cursor.after,
+    // before: cursor.before,
+    query: 'cody',
   })
 
-  React.useEffect(() => {
-    if (res.data && res.data) {
-      setPageInfo(res.data.result.pageInfo)
-    }
-  }, [res])
+  // React.useEffect(() => {
+  //   if (res.data && res.data) {
+  //     setPageInfo(res.data.result.pageInfo)
+  //   }
+  // }, [res])
 
-  const onChange = React.useCallback(value => {
-    setSearchValue(value)
-  }, [])
+  // const onChange = React.useCallback(value => {
+  //   setSearchValue(value)
+  // }, [])
 
-  const onPaginate = React.useCallback(() => {
-    setCursor(state => ({
-      ...state,
-      after: pageInfo?.hasNextPage ? pageInfo.startCursor : undefined,
-      before: pageInfo?.hasPreviousPage ? pageInfo.endCursor : undefined,
-    }))
-  }, [pageInfo])
+  // const onPaginate = React.useCallback(() => {
+  //   setCursor(state => ({
+  //     ...state,
+  //     after: pageInfo?.hasNextPage ? pageInfo.startCursor : undefined,
+  //     before: pageInfo?.hasPreviousPage ? pageInfo.endCursor : undefined,
+  //   }))
+  // }, [pageInfo])
 
   return (
-    <div className="flex flex-col items-center space-y-4 w-full">
-      <h1>Hello NextJS + TailwindCSS + TypeScript Starter</h1>
-      <div className="flex flex-col w-1/2">
+    <div className="flex flex-col items-center relative space-y-4 w-full">
+      {status === 'error' && <h1>Error</h1>}
+      {status === 'loading' && <h1>Loading...</h1>}
+      {status === 'success' && data && (
+        <>
+          {layout === 'grid' && <GridLayout users={data.users} />}
+          {layout === 'list' && <ListLayout users={data.users} />}
+        </>
+      )}
+      {/* <div className="flex flex-col w-1/2">
         <label className="text-lg" htmlFor="search">
           Search for developers on GitHub:
         </label>
@@ -53,8 +65,8 @@ const Home: React.FC = () => {
           value={searchValue}
           type="text"
         />
-      </div>
-      <div className="flex items-center space-x-4">
+      </div> */}
+      {/* <div className="flex items-center space-x-4">
         {pageInfo?.hasPreviousPage && (
           <button
             className="bg-white border border-indigo-800 font-semibold px-4 py-1 rounded-full text-lg text-indigo-800 uppercase"
@@ -71,8 +83,8 @@ const Home: React.FC = () => {
             Next
           </button>
         )}
-      </div>
-      <div className="flex flex-col">
+      </div> */}
+      {/* <div className="flex flex-col">
         {res.status === 'error' && (
           <p className="font-semibold text-2xl text-red-500">Error</p>
         )}
@@ -91,7 +103,7 @@ const Home: React.FC = () => {
             ))}
           </ul>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }
