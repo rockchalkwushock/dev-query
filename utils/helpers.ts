@@ -1,23 +1,35 @@
 import { RawUser, User } from '@interfaces/github'
 
-export const parseUser = (rawUsers: Array<RawUser>): Array<User> =>
-  rawUsers
-    ? rawUsers.map(raw => ({
-        avatar: raw.avatarUrl,
-        bio: raw.bio,
-        company: raw.company,
-        contributions: raw.repositoriesContributedTo.totalCount,
-        createdAt: new Date(raw.createdAt).getFullYear().toString(),
-        email: raw.email,
-        followers: raw.followers.totalCount,
-        githubUrl: raw.url,
-        id: raw.id,
-        location: raw.location,
-        name: raw.name,
-        stars: raw.starredRepositories.totalCount,
-        status: raw.status,
-        twitter: raw.twitterUsername,
-        username: raw.login,
-        websiteUrl: raw.websiteUrl,
-      }))
-    : []
+export const parseUser = (rawUsers: Array<RawUser>): Array<User> => {
+  // When app first loads this will evaluate to undefined.
+  if (typeof rawUsers === 'undefined') {
+    return []
+  }
+  return rawUsers.reduce((acc, user) => {
+    // Parse out empty object.
+    // QUESTION: Why am I getting back empty datasets from GitHub?
+    if (JSON.stringify(user) === JSON.stringify({})) {
+      return acc
+    }
+    // Parse the User data.
+    acc.push({
+      avatar: user.avatarUrl,
+      bio: user.bio,
+      company: user.company,
+      contributions: user.repositoriesContributedTo.totalCount,
+      createdAt: new Date(user.createdAt).getFullYear().toString(),
+      email: user.email,
+      followers: user.followers.totalCount,
+      githubUrl: user.url,
+      id: user.id,
+      location: user.location,
+      name: user.name,
+      stars: user.starredRepositories.totalCount,
+      status: user.status,
+      twitter: user.twitterUsername,
+      username: user.login,
+      websiteUrl: user.websiteUrl,
+    })
+    return acc
+  }, [] as Array<User>)
+}
