@@ -23,7 +23,7 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
         <LayoutToggle />
         <div className="container flex flex-col flex-grow items-center justify-center mx-auto relative w-full">
           <Header />
-          <main className="flex flex-col flex-grow flex-shrink-0">
+          <main className="flex flex-col flex-1 w-full">
             <Component {...pageProps} />
           </main>
           <Footer />

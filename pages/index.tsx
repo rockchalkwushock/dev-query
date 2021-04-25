@@ -1,14 +1,20 @@
 import * as React from 'react'
 
 import { Form, FormValues } from '@components/Form'
+import { Pagination } from '@components/Pagination'
 import { Variables } from '@interfaces/github'
 import { useLayout } from '@hooks/useLayout'
 // import { GridLayout } from '@layouts/GridLayout'
 import { ListLayout } from '@layouts/ListLayout'
 
 import { useSearch } from '@hooks/useSearch'
+import { Icon } from '@components/Icon'
 
 type OnChangeFn = (values: Pick<FormValues, 'limit' | 'query'>) => void
+
+type PaginationCallback = (
+  variables: Pick<Variables, 'after' | 'before'>
+) => void
 
 const Home: React.FC = () => {
   // Used to toggle between Grid & List Layout.
@@ -24,50 +30,54 @@ const Home: React.FC = () => {
     setVariables(v => ({ ...v, query, first: limit }))
   }, [])
 
+  const onNextPage = React.useCallback<PaginationCallback>(cursor => {
+    setVariables(v => ({
+      ...cursor,
+      first: v!.first,
+      last: null,
+      query: v!.query,
+    }))
+  }, [])
+
+  const onPreviousPage = React.useCallback<PaginationCallback>(cursor => {
+    setVariables(v => ({
+      ...cursor,
+      first: null,
+      last: v!.last,
+      query: v!.query,
+    }))
+  }, [])
+
   return (
-    <div className="flex flex-col items-center relative space-y-4 w-full">
+    <section className="flex flex-col flex-1 items-center relative space-y-4 w-full">
       <Form onChange={onChange} />
-      {status === 'error' && <h1>Error</h1>}
-      {status === 'idle' && <h1>WELCOME MESSAGE</h1>}
-      {status === 'loading' && <h1>Loading...</h1>}
+      <div className="flex flex-col flex-1 items-center justify-center">
+        {status === 'error' && <h1>Error</h1>}
+        {status === 'idle' && <h1>WELCOME MESSAGE</h1>}
+        {status === 'loading' && (
+          <Icon.Loader className="animate-spin h-20 text-indigo-800 w-20" />
+        )}
+      </div>
       {status === 'success' && data && (
         <>
-          <button
-            onClick={() =>
-              setVariables(v => ({
-                before: data?.pageInfo.startCursor,
-                first: null,
-                last: 10,
-                query: v!.query,
-              }))
-            }
-            disabled={!data?.pageInfo.hasPreviousPage}
-          >
-            Previous Page
-          </button>{' '}
-          <button
-            onClick={() =>
-              setVariables(v => ({
-                after: data?.pageInfo.endCursor,
-                first: 10,
-                query: v!.query,
-              }))
-            }
-            disabled={isPreviousData || !data?.pageInfo.hasNextPage}
-          >
-            Next Page
-          </button>
-          {
-            // Since the last page's data potentially sticks around between page requests,
-            // we can use `isFetching` to show a background loading
-            // indicator since our `status === 'loading'` state won't be triggered
-            isFetching ? <span> Loading...</span> : null
-          }
-          {/* {layout === 'grid' && <GridLayout users={data.users} />} */}
-          {layout === 'list' && <ListLayout users={data.users} />}
+          {isFetching ? (
+            <Icon.Loader className="animate-spin h-20 text-indigo-800 w-20" />
+          ) : (
+            <>
+              <Pagination
+                info={data.pageInfo}
+                isPreviousData={isPreviousData}
+                onNext={onNextPage}
+                onPrev={onPreviousPage}
+              />
+              <span>Users Found: {data.count}</span>
+              {/* {layout === 'grid' && <GridLayout users={data.users} />} */}
+              {layout === 'list' && <ListLayout users={data.users} />}
+            </>
+          )}
         </>
       )}
-    </div>
+    </section>
   )
 }
 

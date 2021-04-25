@@ -35,10 +35,6 @@ const handler = async (
     },
   })
 
-  console.log('====================================')
-  console.log('req.body', req.body)
-  console.log('====================================')
-
   // Poor Man's Hack #haks
   // This is an easy way to sanitize the req.body or any extraneous or
   // potentially malicious params. We just parse the body and assert it

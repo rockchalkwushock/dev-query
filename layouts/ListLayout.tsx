@@ -11,7 +11,7 @@ export const ListLayout: React.FC<Props> = ({ users }) => {
   return (
     <Accordion
       allowZeroExpanded
-      className="bg-blue-100 flex flex-col min-h-screen p-6 space-y-4 w-screen sm:px-20 lg:px-96"
+      className="flex flex-col px-6 space-y-4 w-full sm:px-20 lg:w-2/3"
     >
       {users.map(user => (
         <AccordionItem key={`${user.id}--list`}>

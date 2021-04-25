@@ -9,7 +9,7 @@ type UseSearch = (
   UseQueryResult<ParsedResponse, unknown>,
   'data' | 'error' | 'isFetching' | 'isPreviousData' | 'status'
 >
-// @ts-ignore
+
 export const useSearch: UseSearch = variables => {
   const { data, error, isFetching, isPreviousData, status } = useQuery(
     ['users', variables],

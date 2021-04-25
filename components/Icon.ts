@@ -1,5 +1,7 @@
 import {
   Calendar,
+  ChevronDown,
+  ChevronRight,
   ExternalLink,
   FastForward,
   GitHub,
@@ -10,8 +12,6 @@ import {
   Loader,
   Mail,
   MapPin,
-  Maximize2,
-  Minimize2,
   Moon,
   Rewind,
   Star,
@@ -22,6 +22,8 @@ import {
 
 export const Icon = {
   Calendar,
+  ChevronDown,
+  ChevronRight,
   ExternalLink,
   FastForward,
   GitHub,
@@ -32,8 +34,6 @@ export const Icon = {
   Loader,
   Mail,
   MapPin,
-  Maximize2,
-  Minimize2,
   Moon,
   Rewind,
   Star,
