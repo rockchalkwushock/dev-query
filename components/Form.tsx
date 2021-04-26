@@ -38,15 +38,13 @@ export const Form: React.FC<Props> = ({ onChange }) => {
     >
       <div className="flex">
         <input
-          className={`h-12 px-6 py-2 rounded-bl-3xl rounded-tl-3xl text-lg w-72 ${
+          className={`bg-secondary h-12 px-6 py-2 rounded-bl-3xl rounded-tl-3xl shadow-md text-lg w-64 focus:outline-none ${
             !!errors.query
               ? 'border-2 border-red-500 placeholder-red-500'
-              : 'border border-indigo-800 placeholder-current'
+              : 'border border-primary placeholder-current'
           }`}
           placeholder={
-            !!errors.query
-              ? errors.query.message
-              : 'Search developers on GitHub'
+            !!errors.query ? errors.query.message : 'Query devs on GitHub'
           }
           type="text"
           {...register('query', {
@@ -58,7 +56,7 @@ export const Form: React.FC<Props> = ({ onChange }) => {
           })}
         />
         <select
-          className="appearance-none border border-l-0 border-indigo-800 h-12 px-6 py-2 rounded-br-3xl rounded-tr-3xl text-lg"
+          className="appearance-none bg-secondary border border-l-0 border-primary h-12 px-6 py-2 rounded-br-3xl rounded-tr-3xl shadow-md text-lg focus:outline-none"
           {...register('limit', { valueAsNumber: true })}
         >
           <option value={12}>12</option>
@@ -68,16 +66,14 @@ export const Form: React.FC<Props> = ({ onChange }) => {
       </div>
       <div className="flex">
         <button
-          className={`bg-white border border-indigo-800 font-semibold px-10 py-2 rounded-bl-3xl rounded-tl-3xl shadow-md text-lg uppercase focus:outline-none ${
-            !!errors.query ? 'cursor-not-allowed opacity-75' : ''
-          }`}
+          className="bg-secondary border border-primary px-10 py-2 rounded-bl-3xl rounded-tl-3xl shadow-md text-lg uppercase disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none"
           disabled={!!errors.query}
           type="submit"
         >
           Query
         </button>
         <button
-          className="bg-white border border-l-0 border-indigo-800 font-semibold px-10 py-2 rounded-br-3xl rounded-tr-3xl shadow-md text-lg uppercase focus:outline-none"
+          className="bg-secondary border border-l-0 border-primary px-10 py-2 rounded-br-3xl rounded-tr-3xl shadow-md text-lg uppercase focus:outline-none"
           onClick={() => reset()}
           type="reset"
         >

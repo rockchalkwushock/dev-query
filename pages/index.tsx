@@ -1,10 +1,11 @@
 import * as React from 'react'
 
+import { AnimatedPage } from '@components/AnimatedPage'
 import { Form, FormValues } from '@components/Form'
 import { Pagination } from '@components/Pagination'
 import { Variables } from '@interfaces/github'
 import { useLayout } from '@hooks/useLayout'
-// import { GridLayout } from '@layouts/GridLayout'
+import { GridLayout } from '@layouts/GridLayout'
 import { ListLayout } from '@layouts/ListLayout'
 
 import { useSearch } from '@hooks/useSearch'
@@ -42,35 +43,60 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <section className="flex flex-col flex-1 items-center relative space-y-4 w-full">
+    <AnimatedPage
+      className="flex flex-col flex-1 items-center relative space-y-4 w-full"
+      pageMetaData={{
+        description:
+          'Dev-query is an application for searching for developers using the GitHub API',
+        title: 'Dev-Query',
+      }}
+    >
       <Form onChange={onChange} />
-      <div className="flex flex-col flex-1 items-center justify-center">
+      <div
+        className={`${
+          status === 'success'
+            ? 'hidden'
+            : 'flex flex-col flex-1 items-center justify-center'
+        }`}
+      >
         {status === 'error' && <h1>Error</h1>}
-        {status === 'idle' && <h1>WELCOME MESSAGE</h1>}
-        {status === 'loading' && (
-          <Icon.Loader className="animate-spin h-20 text-indigo-800 w-20" />
+        {status === 'idle' && (
+          <div className="flex flex-col items-center space-y-4">
+            <h1 className="font-medium text-lg uppercase">
+              🔎 Welcome to Dev-Query 🔍
+            </h1>
+            <p className="font-light text-center">
+              Dev-Query is an application for searching developers on GitHub via
+              the GitHub API.
+            </p>
+          </div>
         )}
+        {status === 'loading' && <Icon.Loader className="loader" />}
       </div>
       {status === 'success' && data && (
         <>
-          {isFetching ? (
-            <Icon.Loader className="animate-spin h-20 text-indigo-800 w-20" />
-          ) : (
-            <>
-              <Pagination
-                info={data.pageInfo}
-                isPreviousData={isPreviousData}
-                limit={cachedLimit}
-                onPaginate={onPagination}
-              />
-              <span>Users Found: {data.count}</span>
-              {/* {layout === 'grid' && <GridLayout users={data.users} />} */}
-              {layout === 'list' && <ListLayout users={data.users} />}
-            </>
-          )}
+          <div className="flex flex-col items-center justify-center py-4 space-y-4">
+            <Pagination
+              info={data.pageInfo}
+              isPreviousData={isPreviousData}
+              limit={cachedLimit}
+              onPaginate={onPagination}
+            />
+            <span className="font-medium text-lg">
+              {data.count === 0
+                ? 'No results found'
+                : `Users Found: ${data.count}`}
+            </span>
+            {isFetching && (
+              <span className="font-medium text-lg">Fetching results...</span>
+            )}
+          </div>
+
+          {layout === 'grid' && <GridLayout users={data.users} />}
+          {layout === 'list' && <ListLayout users={data.users} />}
         </>
       )}
-    </section>
+    </AnimatedPage>
   )
 }
 

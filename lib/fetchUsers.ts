@@ -1,6 +1,6 @@
 import { QueryFunction } from 'react-query'
 
-import { ParsedResponse, Response, Variables } from '@interfaces/github'
+import { ParsedResponse, Response, User, Variables } from '@interfaces/github'
 import { parseUser } from '@utils/helpers'
 
 type FetchUsers = QueryFunction<
@@ -25,7 +25,13 @@ export const fetchUsers: FetchUsers = async ({
     return {
       count: data.result.userCount,
       pageInfo: data.result.pageInfo,
-      users: data.result.nodes.map(node => parseUser(node)),
+      users: data.result.nodes.reduce((acc, node) => {
+        if (JSON.stringify(node) === JSON.stringify({})) {
+          return acc
+        }
+        acc.push(parseUser(node))
+        return acc
+      }, [] as Array<User>),
     }
   } catch (error) {
     throw new Error(`[fetchUsers]: ${error}`)
