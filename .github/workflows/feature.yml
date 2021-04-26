@@ -51,9 +51,6 @@ jobs:
       - name: Type checking
         run: yarn run tsc
 
-      - name: Test
-        run: yarn test:ci
-
       - name: Build
         run: yarn build
 
