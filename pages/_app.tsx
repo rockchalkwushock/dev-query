@@ -2,6 +2,7 @@ import * as React from 'react'
 import { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'next-themes'
+import { AnimatePresence } from 'framer-motion'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import '../styles/global.scss'
@@ -13,11 +14,17 @@ import { LayoutProvider } from '@contexts/LayoutContext'
 
 interface Props extends AppProps {}
 
-const App: React.FC<Props> = ({ Component, pageProps }) => {
+const App: React.FC<Props> = ({ Component, pageProps, router }) => {
   const queryClientRef = React.useRef<QueryClient>()
+
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient()
   }
+
+  const handleExit = React.useCallback(
+    () => typeof window !== 'undefined' && window.scrollTo(0, 0),
+    []
+  )
 
   return (
     <QueryClientProvider client={queryClientRef.current}>
@@ -33,7 +40,9 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
           <div className="container flex flex-col flex-grow items-center justify-center mx-auto relative w-full">
             <Header />
             <main className="flex flex-col flex-1 w-full">
-              <Component {...pageProps} />
+              <AnimatePresence exitBeforeEnter onExitComplete={handleExit}>
+                <Component {...pageProps} key={router.asPath} />
+              </AnimatePresence>
             </main>
             <Footer />
           </div>

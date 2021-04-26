@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { AnimatedPage } from '@components/AnimatedPage'
 import { Form, FormValues } from '@components/Form'
 import { Pagination } from '@components/Pagination'
 import { Variables } from '@interfaces/github'
@@ -42,7 +43,14 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <section className="flex flex-col flex-1 items-center relative space-y-4 w-full">
+    <AnimatedPage
+      className="flex flex-col flex-1 items-center relative space-y-4 w-full"
+      pageMetaData={{
+        description:
+          'dev-query is an application for searching for developers using the GitHub API',
+        title: 'Dev-Query',
+      }}
+    >
       <Form onChange={onChange} />
       <div
         className={`${
@@ -57,19 +65,28 @@ const Home: React.FC = () => {
       </div>
       {status === 'success' && data && (
         <>
-          <Pagination
-            info={data.pageInfo}
-            isPreviousData={isPreviousData}
-            limit={cachedLimit}
-            onPaginate={onPagination}
-          />
-          <span>Users Found: {data.count}</span>
-          {isFetching && <p>Fetching results...</p>}
+          <div className="flex flex-col items-center justify-center py-4 space-y-4">
+            <Pagination
+              info={data.pageInfo}
+              isPreviousData={isPreviousData}
+              limit={cachedLimit}
+              onPaginate={onPagination}
+            />
+            <span className="font-medium text-lg">
+              {data.count === 0
+                ? 'No results found'
+                : `Users Found: ${data.count}`}
+            </span>
+            {isFetching && (
+              <span className="font-medium text-lg">Fetching results...</span>
+            )}
+          </div>
+
           {/* {layout === 'grid' && <GridLayout users={data.users} />} */}
           {layout === 'list' && <ListLayout users={data.users} />}
         </>
       )}
-    </section>
+    </AnimatedPage>
   )
 }
 
