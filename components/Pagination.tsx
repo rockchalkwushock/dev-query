@@ -21,7 +21,7 @@ export const Pagination: React.FC<Props> = ({
   return (
     <div className="flex">
       <button
-        className={`bg-white border border-indigo-800 font-semibold px-10 py-2 shadow-md text-lg uppercase focus:outline-none ${
+        className={`bg-secondary border border-primary font-semibold px-10 py-2 shadow-md text-lg uppercase focus:outline-none ${
           !info.hasPreviousPage
             ? 'hidden'
             : info.hasNextPage && info.hasPreviousPage
@@ -41,7 +41,7 @@ export const Pagination: React.FC<Props> = ({
         <Icon.Rewind />
       </button>
       <button
-        className={`bg-white border border-indigo-800 font-semibold px-10 py-2 shadow-md text-lg uppercase focus:outline-none ${
+        className={`bg-secondary border border-primary font-semibold px-10 py-2 shadow-md text-lg uppercase focus:outline-none ${
           !info.hasNextPage
             ? 'hidden'
             : info.hasNextPage && info.hasPreviousPage

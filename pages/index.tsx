@@ -44,30 +44,29 @@ const Home: React.FC = () => {
   return (
     <section className="flex flex-col flex-1 items-center relative space-y-4 w-full">
       <Form onChange={onChange} />
-      <div className="flex flex-col flex-1 items-center justify-center">
+      <div
+        className={`${
+          status === 'success'
+            ? 'hidden'
+            : 'flex flex-col flex-1 items-center justify-center'
+        }`}
+      >
         {status === 'error' && <h1>Error</h1>}
         {status === 'idle' && <h1>WELCOME MESSAGE</h1>}
-        {status === 'loading' && (
-          <Icon.Loader className="animate-spin h-20 text-indigo-800 w-20" />
-        )}
+        {status === 'loading' && <Icon.Loader className="loader" />}
       </div>
       {status === 'success' && data && (
         <>
-          {isFetching ? (
-            <Icon.Loader className="animate-spin h-20 text-indigo-800 w-20" />
-          ) : (
-            <>
-              <Pagination
-                info={data.pageInfo}
-                isPreviousData={isPreviousData}
-                limit={cachedLimit}
-                onPaginate={onPagination}
-              />
-              <span>Users Found: {data.count}</span>
-              {/* {layout === 'grid' && <GridLayout users={data.users} />} */}
-              {layout === 'list' && <ListLayout users={data.users} />}
-            </>
-          )}
+          <Pagination
+            info={data.pageInfo}
+            isPreviousData={isPreviousData}
+            limit={cachedLimit}
+            onPaginate={onPagination}
+          />
+          <span>Users Found: {data.count}</span>
+          {isFetching && <p>Fetching results...</p>}
+          {/* {layout === 'grid' && <GridLayout users={data.users} />} */}
+          {layout === 'list' && <ListLayout users={data.users} />}
         </>
       )}
     </section>

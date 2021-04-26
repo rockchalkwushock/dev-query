@@ -1,7 +1,21 @@
 import * as React from 'react'
+import { motion, Variants } from 'framer-motion'
 
 import { useLayout } from '@hooks/useLayout'
 import { Icon } from './Icon'
+
+const variants: Variants = {
+  closed: {
+    opacity: 0,
+    transition: {},
+  },
+  open: {
+    opacity: 1,
+    transition: {
+      delay: 0.3,
+    },
+  },
+}
 
 export const LayoutToggle: React.FC = () => {
   const { layout, toggleLayout } = useLayout()
@@ -10,14 +24,15 @@ export const LayoutToggle: React.FC = () => {
     toggleLayout({ type: layout === 'grid' ? 'toggle-list' : 'toggle-grid' })
   }, [layout, toggleLayout])
   return (
-    <button
+    <motion.button
       aria-label="Toggle Layout"
-      className="absolute bg-white border-0 cursor-pointer flex h-12 items-center justify-center outline-none right-4 rounded-full top-4 w-12 z-20"
+      className="right-4 toggle-button"
       onClick={onToggleLayout}
       type="button"
+      variants={variants}
     >
-      {layout === 'grid' && <Icon.Grid className="text-indigo-800" />}
-      {layout === 'list' && <Icon.List className="text-indigo-800" />}
-    </button>
+      {layout === 'grid' && <Icon.Grid className="text-emerald-300" />}
+      {layout === 'list' && <Icon.List className="text-emerald-300" />}
+    </motion.button>
   )
 }
