@@ -31,13 +31,13 @@ export const ThemeToggle: React.FC = () => {
   return (
     <motion.button
       aria-label="Theme Toggle"
-      className="left-4 toggle-button"
+      className="left-4 text-amber-300 toggle-button"
       onClick={onToggleTheme}
       type="button"
       variants={variants}
     >
-      {mounted && theme === 'dark' && <Icon.Moon className="text-amber-300" />}
-      {mounted && theme === 'light' && <Icon.Sun className="text-amber-300" />}
+      {mounted && theme === 'dark' && <Icon.Moon />}
+      {mounted && theme === 'light' && <Icon.Sun />}
     </motion.button>
   )
 }

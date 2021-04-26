@@ -26,13 +26,13 @@ export const LayoutToggle: React.FC = () => {
   return (
     <motion.button
       aria-label="Toggle Layout"
-      className="right-4 toggle-button"
+      className="right-4 text-emerald-300 toggle-button"
       onClick={onToggleLayout}
       type="button"
       variants={variants}
     >
-      {layout === 'grid' && <Icon.Grid className="text-emerald-300" />}
-      {layout === 'list' && <Icon.List className="text-emerald-300" />}
+      {layout === 'grid' && <Icon.Grid />}
+      {layout === 'list' && <Icon.List />}
     </motion.button>
   )
 }

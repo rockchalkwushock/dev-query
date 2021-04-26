@@ -3,6 +3,7 @@ import { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'next-themes'
 import { AnimatePresence } from 'framer-motion'
+import { Toaster } from 'react-hot-toast'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import '../styles/global.scss'
@@ -45,6 +46,7 @@ const App: React.FC<Props> = ({ Component, pageProps, router }) => {
               </AnimatePresence>
             </main>
             <Footer />
+            <Toaster position="top-center" />
           </div>
         </LayoutProvider>
       </ThemeProvider>

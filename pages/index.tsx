@@ -30,7 +30,10 @@ const Home: React.FC = () => {
   const { data, isFetching, isPreviousData, status } = useSearch(variables)
 
   const onChange = React.useCallback<OnChangeFn>(({ limit, query }) => {
-    setVariables(v => ({ ...v, query, first: limit }))
+    // Don't forget to pass null on "last" if the user is searching a new
+    // result after paginating through users. If not query will likely explode
+    // with "first" & "last" values.
+    setVariables(v => ({ ...v, query, first: limit, last: null }))
     // Keep the limit up-to-date.
     setCachedLimit(limit)
   }, [])
