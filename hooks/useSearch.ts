@@ -11,6 +11,7 @@ type UseSearch = (
 >
 
 export const useSearch: UseSearch = variables => {
+  console.log('useSearch', variables)
   const { data, error, isFetching, isPreviousData, status } = useQuery(
     ['users', variables],
     fetchUsers,

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 import { Variables } from '@interfaces/github'
 
@@ -11,23 +12,14 @@ interface Props {
 
 export const Form: React.FC<Props> = ({ onChange }) => {
   const {
-    formState: { errors, isSubmitted },
+    formState: { errors },
     handleSubmit,
     register,
     reset,
+    trigger,
   } = useForm<FormValues>({
     defaultValues: { limit: 12, query: '' },
   })
-
-  React.useEffect(() => {
-    if (isSubmitted) {
-      reset(undefined, {
-        keepDirty: false,
-        keepErrors: true,
-        keepTouched: false,
-      })
-    }
-  }, [isSubmitted, reset])
 
   const onSubmit = handleSubmit(values => onChange(values))
 
@@ -43,13 +35,11 @@ export const Form: React.FC<Props> = ({ onChange }) => {
               ? 'border-2 border-red-500 placeholder-red-500'
               : 'border border-primary placeholder-current'
           }`}
-          placeholder={
-            !!errors.query ? errors.query.message : 'Query devs on GitHub'
-          }
+          placeholder="Query devs on GitHub"
           type="text"
           {...register('query', {
             minLength: {
-              message: 'Must be at least 3 characters.',
+              message: '3 character minimum.',
               value: 3,
             },
             required: 'You must submit a query value.',
@@ -68,6 +58,17 @@ export const Form: React.FC<Props> = ({ onChange }) => {
         <button
           className="bg-secondary border border-primary px-10 py-2 rounded-bl-3xl rounded-tl-3xl shadow-md text-lg uppercase disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none"
           disabled={!!errors.query}
+          onClick={async () => {
+            // Not a big fan of this API for triggering field-level validation
+            const result = await trigger('query')
+            // Basically we need to inspect if the validation passed or not
+            // and then not only fire the toast but clear but trigger a reset as well.
+            if (!result) {
+              toast.error(errors.query!.message!)
+              reset()
+              return
+            }
+          }}
           type="submit"
         >
           Query
