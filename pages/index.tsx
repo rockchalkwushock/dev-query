@@ -5,7 +5,7 @@ import { Form, FormValues } from '@components/Form'
 import { Pagination } from '@components/Pagination'
 import { Variables } from '@interfaces/github'
 import { useLayout } from '@hooks/useLayout'
-// import { GridLayout } from '@layouts/GridLayout'
+import { GridLayout } from '@layouts/GridLayout'
 import { ListLayout } from '@layouts/ListLayout'
 
 import { useSearch } from '@hooks/useSearch'
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
       className="flex flex-col flex-1 items-center relative space-y-4 w-full"
       pageMetaData={{
         description:
-          'dev-query is an application for searching for developers using the GitHub API',
+          'Dev-query is an application for searching for developers using the GitHub API',
         title: 'Dev-Query',
       }}
     >
@@ -60,7 +60,17 @@ const Home: React.FC = () => {
         }`}
       >
         {status === 'error' && <h1>Error</h1>}
-        {status === 'idle' && <h1>WELCOME MESSAGE</h1>}
+        {status === 'idle' && (
+          <div className="flex flex-col items-center space-y-4">
+            <h1 className="font-medium text-lg uppercase">
+              🔎 Welcome to Dev-Query 🔍
+            </h1>
+            <p className="font-light text-center">
+              Dev-Query is an application for searching developers on GitHub via
+              the GitHub API.
+            </p>
+          </div>
+        )}
         {status === 'loading' && <Icon.Loader className="loader" />}
       </div>
       {status === 'success' && data && (
@@ -82,7 +92,7 @@ const Home: React.FC = () => {
             )}
           </div>
 
-          {/* {layout === 'grid' && <GridLayout users={data.users} />} */}
+          {layout === 'grid' && <GridLayout users={data.users} />}
           {layout === 'list' && <ListLayout users={data.users} />}
         </>
       )}

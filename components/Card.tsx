@@ -20,7 +20,7 @@ export const Card: React.FC<Props> = ({ user }) => {
         <>
           <AccordionItemHeading>
             <AccordionItemButton
-              className={`bg-secondary border border-primary flex items-center p-4 pl-10 relative ridiculous-accordion-transition rounded-md space-x-2 transition focus:outline-none md:pl-12 ${
+              className={`bg-secondary border border-primary flex items-center p-4 pl-10 relative ridiculous-accordion-transition rounded-md space-x-2 focus:outline-none md:pl-12 ${
                 expanded
                   ? 'bg-orange-400 dark:bg-orange-700 border-b-0 rounded-bl-none rounded-br-none'
                   : 'shadow-md'

@@ -2,7 +2,6 @@
 
 ## What's Left
 
-1. Finish `GridLayout`.
 2. Document code & cleanup the repository.
 3. Tests if I have time.
 

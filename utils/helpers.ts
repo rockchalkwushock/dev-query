@@ -1,5 +1,7 @@
 import { RawUser, User } from '@interfaces/github'
 
+export const isServer = typeof window === 'undefined'
+
 export const parseUser = (node: RawUser): User => {
   return {
     avatar: node!.avatarUrl,
