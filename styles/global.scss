@@ -1,0 +1,51 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html,
+body {
+  min-height: 100vh;
+  min-width: 22.5rem;
+  scroll-behavior: smooth;
+}
+
+#__next {
+  @apply flex flex-col min-h-screen w-full;
+}
+
+/*
+-------------------------------------------
+Custom utilities for tailwind
+-------------------------------------------
+*/
+@layer utilities {
+  .bg-primary {
+    // Kick ass gradients brought to you by https://hypercolor.dev/#gradients with tweaks from this guy.
+    @apply bg-gradient-to-b from-blue-500 to-blue-100 dark:from-coolGray-900 dark:to-warmGray-600;
+  }
+  .bg-secondary {
+    @apply bg-coolGray-50 dark:bg-coolGray-800;
+  }
+  .border-primary {
+    @apply border-coolGray-900 dark:border-coolGray-50;
+  }
+  .text-primary {
+    @apply text-coolGray-900 dark:text-coolGray-50;
+  }
+  .text-secondary {
+    @apply text-coolGray-700 dark:text-coolGray-300;
+  }
+  .loader {
+    @apply h-20 text-secondary w-20 motion-reduce:animate-spin;
+  }
+  // One Offs
+  .ridiculous-accordion-panel-gradient {
+    @apply bg-gradient-to-b from-orange-400 to-orange-100 dark:from-orange-700 dark:to-orange-400;
+  }
+  .ridiculous-accordion-transition {
+    @apply motion-reduce:duration-300 motion-reduce:transition;
+  }
+  .toggle-button {
+    @apply absolute bg-coolGray-700 border-0 cursor-pointer flex h-14 items-center justify-center outline-none rounded-full shadow-md top-4 w-14 z-20 focus:outline-none;
+  }
+}
