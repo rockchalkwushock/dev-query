@@ -27,7 +27,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "framer-motion": "^4.1.9",
+    "framer-motion": "^5.2.1",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",
     "next": "^10.1.3",
